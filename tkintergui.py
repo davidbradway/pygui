@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #
 # http://www.tutorialspoint.com/python/python_command_line_arguments.htm
+# http://effbot.org/zone/tkinter-callbacks.htm
 
 import sys, getopt
 import tkinter
@@ -24,7 +25,8 @@ def main(argv):
     
     btn=[]
     for i in range(len(command_list)):
-        btn.append(tkinter.Button(top,text=str(command_list[i]), command=callback(command_list[i])))
+        btn.append(tkinter.Button(top,text=str(command_list[i]), command=lambda command_name=command_list[i]:callback(command_name)))
+        # Put each button in a new row, in one column
         btn[-1].grid(row=i, column=0)
 
     top.mainloop()
