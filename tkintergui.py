@@ -3,12 +3,15 @@
 # http://www.tutorialspoint.com/python/python_command_line_arguments.htm
 # http://effbot.org/zone/tkinter-callbacks.htm
 
-import sys, getopt
-import tkinter
+import sys, getopt, os, tkinter
+from subprocess import call
 
 def callback(name):
     # Maybe make this a switch case with all your imaging cases and scripts?
-    print(name)
+    print('/getlab/dpb6/repos/pygui/4V1c/'+name)
+    os.chdir('/getlab/dpb6/repos/pygui/4V1c/'+name)
+    print(os.getcwd())
+    call(["python", "grab_TTE_Mixed.py"])
 
 def main(argv):
     #print('Number of arguments:', len(argv))
@@ -19,7 +22,7 @@ def main(argv):
         command_list = argv
     else:
         # Else, use the defaults
-        command_list = [ 'a','b','c','d']
+        command_list = ['Active/Foc_20mm','Active/Foc_25mm','Passive/Foc_20mm','Passive/Foc_25mm']
     
     top=tkinter.Tk()
     
