@@ -19,11 +19,13 @@ def main(argv):
         command_list = argv
     else:
         # Else, use the defaults
-        command_list = ['a','b','c','d']
+        command_list = [ 'a','b','c','d']
     
     top=tkinter.Tk()
     
+    # Initialize an empty button array
     btn=[]
+    # Add a button for each item in the command list
     for i in range(len(command_list)):
         btn.append(tkinter.Button(top,text=str(command_list[i]), command=lambda command_name=command_list[i]:callback(command_name)))
         # Put each button in a new row, in one column
@@ -32,4 +34,5 @@ def main(argv):
     top.mainloop()
 
 if __name__ == "__main__":
-   main(sys.argv[1:])
+    # Strip off automatic first argument (sys.argv[0] is the program ie. script name)
+    main(sys.argv[1:])
