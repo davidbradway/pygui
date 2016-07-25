@@ -11,7 +11,10 @@ def callback(name):
     print('/getlab/dpb6/repos/pygui/4V1c/'+name)
     os.chdir('/getlab/dpb6/repos/pygui/4V1c/'+name)
     print(os.getcwd())
-    call(["python", "grab_TTE_Mixed.py"])
+    if 'Active' in name:
+        call(["python", "grab_TTE_Mixed.py"])
+    elif 'Passive' in name:
+        call(["python", "grab_TTE_all.py"])
 
 def main(argv):
     #print('Number of arguments:', len(argv))
