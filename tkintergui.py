@@ -2,6 +2,7 @@
 #
 # http://www.tutorialspoint.com/python/python_command_line_arguments.htm
 # http://effbot.org/zone/tkinter-callbacks.htm
+# http://zetcode.com/gui/tkinter/layout/
 
 import sys, getopt, os, tkinter
 from subprocess import call
@@ -83,7 +84,7 @@ def main(argv):
     btn[-1].grid(row=1, column=0, columnspan=2, sticky=tkinter.W)
 
     btn.append(tkinter.Button(top,text='Go!', command=lambda:go_callback()))
-    btn[-1].grid(row=1, column=1, columnspan=4, sticky=tkinter.E)
+    btn[-1].grid(row=1, column=1, columnspan=len(command_list)-1, sticky=tkinter.E)
 
     lbl = []
     lbl.append(tkinter.Label(top, text="CURDIR:"))
