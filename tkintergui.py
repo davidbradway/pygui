@@ -8,7 +8,8 @@ from subprocess import call
 
 baseDir = '/getlab/dpb6/repos/pygui/4V1c/'
 activePassive = 'Active'
-focus = 25
+focus = 'Foc_20mm'
+
 
 def activepassive_callback():
     global baseDir
@@ -37,7 +38,9 @@ def foc_callback(btn_value):
     
 
 def go_callback():
+    global baseDir
     global activePassive
+    global focus
 
     if 'Active' in activePassive:
         call(["python", "grab_TTE_Mixed.py"])
@@ -45,8 +48,15 @@ def go_callback():
         call(["python", "grab_TTE_all.py"])
 
 def main(argv):
+    global baseDir
+    global activePassive
+    global focus
+
     #print('Number of arguments:', len(argv))
     print('Argument List:', str(argv))
+
+    os.chdir(os.path.join(baseDir,activePassive,focus))
+    print(os.getcwd())
 
     # If there are command line options, use those 
     if len(argv) >= 1:
@@ -66,10 +76,22 @@ def main(argv):
         btn[-1].grid(row=0, column=i)
 
     btn.append(tkinter.Button(top,text='Active/Passive', command=lambda:activepassive_callback()))
-    btn[-1].grid(row=1, column=0)
+    btn[-1].grid(row=1, column=0, columnspan=2, sticky=tkinter.W)
 
     btn.append(tkinter.Button(top,text='Go!', command=lambda:go_callback()))
-    btn[-1].grid(row=1, column=1)
+    btn[-1].grid(row=1, column=1, columnspan=4, sticky=tkinter.E)
+
+    lbl = []
+    lbl.append(tkinter.Label(top, text="CURDIR:"))
+    lbl[-1].grid(row=2, column=0)
+
+    # message = tkinter.StringVar()
+    # message.set(os.path.join(activePassive,focus))
+    message = 'Static message for now :-('
+
+    entryHandle = []
+    entryHandle.append(tkinter.Entry(top, textvariable=message))
+    entryHandle[-1].grid(row=2, column=1, columnspan=2)
 
     top.mainloop()
 
