@@ -25,6 +25,7 @@ def activepassive_callback():
         os.chdir(os.path.join(baseDir,activePassive,focus))
         print(os.getcwd())
 
+    # message.set(os.path.join(activePassive,focus))
     
 def foc_callback(btn_value):
     global baseDir
@@ -35,7 +36,8 @@ def foc_callback(btn_value):
         focus = btn_value
         os.chdir(os.path.join(baseDir,activePassive,focus))
         print(os.getcwd())
-    
+
+    # message.set(os.path.join(activePassive,focus))
 
 def go_callback():
     global baseDir
@@ -46,6 +48,8 @@ def go_callback():
         call(["python", "grab_TTE_Mixed.py"])
     elif 'Passive' in activePassive:
         call(["python", "grab_TTE_all.py"])
+
+    # message.set(os.path.join(activePassive,focus))
 
 def main(argv):
     global baseDir
@@ -64,7 +68,7 @@ def main(argv):
     else:
         # Else, use the defaults
         command_list = ['Foc_20mm','Foc_25mm','Foc_30mm','Foc_35mm','Foc_40mm']
-    
+
     top=tkinter.Tk()
     
     # Initialize an empty button array
