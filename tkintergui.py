@@ -4,17 +4,27 @@
 # http://effbot.org/zone/tkinter-callbacks.htm
 # http://stackoverflow.com/questions/17125842/changing-the-text-on-a-label
 # http://stackoverflow.com/questions/29828477/how-to-change-tkinter-label-text-on-button-press
+# http://stackoverflow.com/questions/4906977/access-environment-variables-from-python
+# http://askubuntu.com/questions/58814/how-do-i-add-environment-variables
 
-import sys, getopt, os, tkinter
+import sys, getopt, os, tkinter, datetime
 from subprocess import call
 
 class MyGUI:
     def __init__(self):
     
         # These attibutes contain the parts of the path
-        self.baseDir = '/getlab/dpb6/repos/pygui/4V1c/'
+        # Look for env var 'TTEBASEDIR' which should be created in Windows or Linux
+        self.baseDir = os.getenv('TTEBASEDIR', '/getlab/dpb6/repos/pygui/4V1c/')
         self.activePassive = 'Active'
         self.focus = 'Foc_20mm'
+
+        # Get the starting directory where a logfile can be written
+        self.startdir = os.getcwd()
+        # Open a logfile and append new commmands
+        self.f = open('logfile.txt', 'a')
+        # Start by printing the datetime
+        print(datetime.datetime.now(), file=self.f)
 
         # Change to the default directory
         os.chdir(os.path.join(self.baseDir,self.activePassive,self.focus))
@@ -51,11 +61,9 @@ class MyGUI:
         if 'Active' in self.activePassive:
             self.activePassive = 'Passive'
             os.chdir(os.path.join(self.baseDir,self.activePassive,self.focus))
-            print(os.getcwd()) # Can change these to print to a timestamped logfile
         elif 'Passive' in self.activePassive:
             self.activePassive = 'Active'
             os.chdir(os.path.join(self.baseDir,self.activePassive,self.focus))
-            print(os.getcwd()) # Can change these to print to a timestamped logfile
             
         self.curdirLabel.config(text="CURDIR: "+os.path.join(self.activePassive,self.focus))
         
@@ -64,17 +72,16 @@ class MyGUI:
         if 'Foc' in btn_value:
             self.focus = btn_value
             os.chdir(os.path.join(self.baseDir,self.activePassive,self.focus))
-            print(os.getcwd()) # Can change these to print to a timestamped logfile
             
         self.curdirLabel.config(text="CURDIR: "+os.path.join(self.activePassive,self.focus))
 
     def go_callback(self):
         if 'Active' in self.activePassive:
             call(["python", "grab_TTE_Mixed.py"])
-            print("grab_TTE_Mixed") # Can change these to print to a timestamped logfile
+            print(os.path.join(os.getcwd(),"grab_TTE_Mixed.py"), file=self.f)
         elif 'Passive' in self.activePassive:
             call(["python", "grab_TTE_All.py"])
-            print("grab_TTE_All") # Can change these to print to a timestamped logfile
+            print(os.path.join(os.getcwd(),"grab_TTE_All.py"), file=self.f)
 
         self.curdirLabel.config(text="CURDIR: "+os.path.join(self.activePassive,self.focus))
 
