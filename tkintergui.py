@@ -32,29 +32,34 @@ class MyGUI:
         os.chdir(os.path.join(self.baseDir,self.activePassive,self.focus))
 
         # List of focal zones, could be auto-discovered and populated
-        command_list = ['Foc_20mm','Foc_25mm','Foc_30mm','Foc_35mm','Foc_40mm']
+        focus_list = ['Foc_20mm','Foc_25mm','Foc_30mm','Foc_35mm','Foc_40mm','Foc_45mm','Foc_50mm','Foc_55mm','Foc_60mm','Foc_65mm','Foc_70mm','Foc_75mm','Foc_80mm','Foc_85mm','Foc_90mm']
 
         self.top=tkinter.Tk()
         
         # Initialize an empty button array
         btn=[]
+        i=0
         # Add a button for each item in the command list
-        for i in range(len(command_list)):
-            btn.append(tkinter.Button(self.top,text=str(command_list[i]), command=lambda btn_value=command_list[i]:self.foc_callback(btn_value)))
-            # Put each button in a new column, in one row
-            btn[-1].grid(row=0, column=i)
+        for rw in range(3):
+            for col in range(5):
+                btn.append(tkinter.Button(self.top,text=str(focus_list[i]), command=lambda btn_value=focus_list[i]:self.foc_callback(btn_value)))
+                # Put each button in a new column, in one row
+                btn[-1].grid(row=rw, column=col)
+                i+=1
 
+        rw+=1
         # Add a button to switch between Active and Passive Sequences
         btn.append(tkinter.Button(self.top,text='Active/Passive', command=lambda:self.activepassive_callback()))
-        btn[-1].grid(row=1, column=0, columnspan=2, sticky=tkinter.W)
+        btn[-1].grid(row=rw, column=0, columnspan=2, sticky=tkinter.W)
 
         # Add a button for GO
         btn.append(tkinter.Button(self.top,text='Go!', command=lambda:self.go_callback()))
-        btn[-1].grid(row=1, column=1, columnspan=len(command_list)-1, sticky=tkinter.E)
+        btn[-1].grid(row=rw, column=1, columnspan=int(len(focus_list)/3)-1, sticky=tkinter.E)
 
+        rw+=1
         # Add a Label for curdir statusbar on the GUI
         self.curdirLabel = tkinter.Label(self.top, text="CURDIR: "+os.path.join(self.activePassive,self.focus))
-        self.curdirLabel.grid(row=2, column=0, columnspan=2, sticky=tkinter.W)
+        self.curdirLabel.grid(row=rw, column=0, columnspan=2, sticky=tkinter.W)
 
         self.top.mainloop()
 
