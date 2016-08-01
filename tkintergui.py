@@ -16,7 +16,7 @@ class MyGUI:
         # These attibutes contain the parts of the path
         # Look for env var 'TTEBASEDIR' which should be created in Windows or Linux
         self.baseDir = os.getenv('TTEBASEDIR', '/getlab/dpb6/repos/pygui/4V1c/')
-        self.activePassive = 'Active'
+        self.activePassive = 'Passive'
         self.focus = 'Foc_20mm'
 
         # Get the starting directory where a logfile can be written
@@ -25,8 +25,6 @@ class MyGUI:
         # Open a logfile and append new commmands
         self.f = open('logfile.txt', 'a')
 
-        # Start by printing the datetime
-        print(datetime.datetime.now(), file=self.f)
 
         # Change to the default directory
         os.chdir(os.path.join(self.baseDir,self.activePassive,self.focus))
@@ -53,8 +51,8 @@ class MyGUI:
         btn[-1].grid(row=rw, column=0, columnspan=2, sticky=tkinter.W)
 
         # Add a button for GO
-        btn.append(tkinter.Button(self.top,text='Go!', command=lambda:self.go_callback()))
-        btn[-1].grid(row=rw, column=1, columnspan=int(len(focus_list)/3)-1, sticky=tkinter.E)
+        self.go_btn = tkinter.Button(self.top,text='Go!', command=lambda:self.go_callback(), bg='green')
+        self.go_btn.grid(row=rw, column=1, columnspan=int(len(focus_list)/3)-1, sticky=tkinter.E)
 
         rw+=1
         # Add a Label for curdir statusbar on the GUI
@@ -67,14 +65,20 @@ class MyGUI:
         # Toggle the value of the attribute
         if 'Active' in self.activePassive:
             self.activePassive = 'Passive'
+            # Update the GO button color
+            self.go_btn.configure(bg = "green")
+
         elif 'Passive' in self.activePassive:
             self.activePassive = 'Active'
+            # Update the GO button color
+            self.go_btn.configure(bg = "red")
 
         # Change the current directory
         os.chdir(os.path.join(self.baseDir,self.activePassive,self.focus))
 
         # Update the statusbar on the GUI
         self.curdirLabel.config(text="CURDIR: "+os.path.join(self.activePassive,self.focus))
+
         
     def foc_callback(self,btn_value):
         # Update the value of the attribute
@@ -97,7 +101,7 @@ class MyGUI:
         call(['python',filename])
 
         # Print to log
-        print(os.path.join(os.getcwd(),filename), file=self.f)
+        print(str(datetime.datetime.now())+" "+os.path.join(self.activePassive,self.focus,filename), file=self.f)
 
         # Update the statusbar on the GUI
         self.curdirLabel.config(text="CURDIR: "+os.path.join(self.activePassive,self.focus))
