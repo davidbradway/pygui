@@ -10,7 +10,7 @@
 import sys, getopt, os, tkinter, datetime
 from subprocess import call
 
-class MyGUI:
+class MyGUI(object):
     def __init__(self):
     
         # These attibutes contain the parts of the path
